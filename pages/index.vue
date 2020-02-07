@@ -29,7 +29,8 @@
                 class="search-tab">
                     <span v-for="(item ,index) in options"
                     :key="index"
-                    @click="handleClick(index)">
+                    @click="handleClick(index)"
+                    :class="{active: current === index}">
                         <i>{{item.text}}</i>
                     </span>
                 </el-row>
@@ -88,6 +89,14 @@ export default {
     methods: {
         // 点击tab栏按钮时候的事件,重点修改current
         handleClick(index){
+            // 点击的如果是机票的按钮
+            if(index === 2){
+                this.$router.push({
+                    path: "/air"
+                })
+            }
+            
+            // 修改current
             this.current = index;
         }
     }
