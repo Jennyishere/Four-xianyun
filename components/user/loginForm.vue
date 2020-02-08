@@ -67,7 +67,13 @@ export default {
                 // 验证通过
                 if(vaild){
                     // 提交到登录接口
-                    console.log(this.form)
+                    this.$axios({
+                        url: "/accounts/login",
+                        method: "POST",
+                        data: this.form
+                    }).then(res => {
+                        console.log(res)
+                    })
                 }
             }) 
         }
