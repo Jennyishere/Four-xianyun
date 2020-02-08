@@ -72,7 +72,13 @@ export default {
                         method: "POST",
                         data: this.form
                     }).then(res => {
-                        console.log(res)
+                        const {data} = res;
+
+                        // 把数据存储到store中
+                        // this.$store.state.user.userInfo = data; // 错误的写法
+
+                        // 通过commit调用mutations中的方法
+                        this.$store.commit('user/setUserInfo', data);
                     })
                 }
             }) 

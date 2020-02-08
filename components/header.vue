@@ -42,6 +42,8 @@
                 <nuxt-link to="/user/login" class="account-link" v-else>
                     登录 / 注册 
                 </nuxt-link>
+
+                {{ $store.state.user.userInfo.user.nickname }}
             </el-row>
         </el-row>
     </header>
@@ -51,6 +53,10 @@ export default {
     methods: {
         // 用户退出
         handleLogout(){},
+    },
+
+    mounted(){
+        // console.log(this.$store.state.user.name)
     }
 }
 </script>
