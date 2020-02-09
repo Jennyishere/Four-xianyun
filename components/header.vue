@@ -50,7 +50,12 @@
 export default {
     methods: {
         // 用户退出
-        handleLogout(){},
+        handleLogout(){
+            this.$store.commit("user/setUserInfo", {
+                token: "",
+                user: {} // 一定要使用对象
+            })
+        },
     },
 
     mounted(){
