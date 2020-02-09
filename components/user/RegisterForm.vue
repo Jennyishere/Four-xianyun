@@ -122,7 +122,15 @@ export default {
     methods: {
         // 发送验证码
         handleSendCaptcha(){
+            // 判断手机号码不能为空
+            if(this.form.username == ""){
+                return;
+            }
 
+            // 调用store仓库中user模块下的发送验证码的方法
+            this.$store.dispatch("user/sendCaptcha", this.form.username).then(res => {
+                this.$message.success("模拟手机验证码: 000000");
+            })
         },
 
         // 注册

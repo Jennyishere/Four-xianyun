@@ -37,5 +37,16 @@ export const actions = {
             // 调用commit保存数据到state
             store.commit('setUserInfo', data);
         })
+    },
+
+    // 发送手机验证码, data是手机号码字符串
+    sendCaptcha(store, data){
+        return this.$axios({
+            url: "/captchas",
+            method: "POST",
+            data: {
+                tel: data // 用户名就是手机号码
+            }
+        })
     }
 }
