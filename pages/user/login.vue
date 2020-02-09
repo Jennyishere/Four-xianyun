@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             // 索引
-            currentTab: 1
+            currentTab: 0
         };
 	},
 	// 注册组件
