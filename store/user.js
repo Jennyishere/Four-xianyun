@@ -10,6 +10,7 @@ export const state = () => {
     }
 }
 
+
 // 固定的属性，同步修改state中的值
 export const mutations = {
     // 函数名自定义,
