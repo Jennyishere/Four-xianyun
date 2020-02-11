@@ -29,10 +29,14 @@
 
 
             <el-form-item label="到达城市">
+                <!-- fetch-suggestions: 监听输入框的输入，可以在这个事件中请求API数据,类似input事件 -->
+                <!-- select: 点击展开列表选项时候触发 -->
                 <el-autocomplete
+                v-model="form.destCity"
                 :fetch-suggestions="queryDestSearch"
                 placeholder="请搜索到达城市"
                 @select="handleDestSelect"
+                @blur="handleDestBlur"
                 class="el-autocomplete"
                 ></el-autocomplete>
             </el-form-item>
@@ -80,7 +84,9 @@ export default {
             },
 
             // 出发城市列表
-            departData: []
+            departData: [],
+            // 到达城市列表
+            destData: []
         }
     },
     methods: {
@@ -134,9 +140,41 @@ export default {
             this.form.departCode =  this.departData[0].sort;
         },
 
+        // 到达城市输入框失去焦点时候触发
+        handleDestBlur(){
+            if(this.destData.length === 0){
+                return;
+            }
+            // 默认获取数组中第一个城市
+            this.form.destCity =  this.destData[0].value;
+            this.form.destCode =  this.destData[0].sort;
+        },
 
+        // 监听到达城市输入框的事件(跟上面出发城市queryDepartSearch是一样)
         queryDestSearch(value, cb){
+            if(!value){
+                return;
+            }
 
+            // 根据value请求城市列表
+            this.$axios({
+                url: "/airs/city",
+                params: {
+                    name: value
+                }
+            }).then(res => {
+                const {data} = res.data;
+
+                const newData = data.map(v => {
+                    v.value = v.name.replace("市", "");
+                    return v;
+                })
+
+                // 把newData保存到data中(出了这里和出发城市不一样，函数内的其他代码和出发城市都是一样的)
+                this.destData = newData;
+
+                cb(newData);
+            })
         },
        
         // 出发城市下拉选择时触发
@@ -147,7 +185,8 @@ export default {
 
         // 目标城市下拉选择时触发
         handleDestSelect(item) {
-            
+            this.form.destCity = item.value;
+            this.form.destCode = item.sort;
         },
 
         // 确认选择日期时触发
