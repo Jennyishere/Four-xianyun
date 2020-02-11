@@ -1,10 +1,9 @@
 <template>
     <div class="search-form">
-        测试 git GUI
-
         <!-- 头部tab切换 -->
         <el-row type="flex" class="search-tab">
-            <span v-for="(item, index) in tabs" :key="index"
+            <span 
+            v-for="(item, index) in tabs" :key="index"
             @click="handleSearchTab(item, index)"
             :class="{active: index === currentTab}">
                 <i :class="item.icon"></i>{{item.name}}
@@ -12,16 +11,21 @@
         </el-row>
 
         <el-form class="search-form-content" ref="form" label-width="80px">
+
             <el-form-item label="出发城市">
-                <!-- fetch-suggestions 返回输入建议的方法 -->
-                <!-- select 点击选中建议项时触发 -->
+                <!-- fetch-suggestions: 监听输入框的输入，可以在这个事件中请求API数据,类似input事件 -->
+                <!-- select: 点击展开列表选项时候触发 -->
                 <el-autocomplete
+                v-model="form.departCity"
                 :fetch-suggestions="queryDepartSearch"
                 placeholder="请搜索出发城市"
                 @select="handleDepartSelect"
                 class="el-autocomplete"
                 ></el-autocomplete>
             </el-form-item>
+
+
+
             <el-form-item label="到达城市">
                 <el-autocomplete
                 :fetch-suggestions="queryDestSearch"
@@ -30,6 +34,7 @@
                 class="el-autocomplete"
                 ></el-autocomplete>
             </el-form-item>
+
             <el-form-item label="出发时间">
                 <!-- change 用户确认选择日期时触发 -->
                 <el-date-picker type="date" 
@@ -62,6 +67,15 @@ export default {
                 {icon: "iconfont iconshuangxiang", name: "往返"}
             ],
             currentTab: 0,
+
+            // 表单的字段
+            form: {
+                departCity: "",
+                departCode: "",
+                destCity: "",
+                destCode: "",
+                departDate: ""
+            }
         }
     },
     methods: {
@@ -70,29 +84,34 @@ export default {
             
         },
         
-        // 出发城市输入框获得焦点时触发
-        // value 是选中的值，cb是回调函数，接收要展示的列表
+        // 监听出发城市输入框的事件
+        // value是输入框的值
+        // cb可以接收数组，把数组列表展示出来
         queryDepartSearch(value, cb){
-            cb([
-                {value: 1},
-                {value: 2},
-                {value: 3},
-            ]);
+            console.log(value)
+
+            // 根据value请求城市列表
+
+            // 假设接口返回了
+            const arr = [
+                {value: "广州", sort: "CAN"},
+                {value: "广元", sort: "yuan"},
+                {value: "广安", sort: "guangan"},
+            ]
+
+            // cb把数组展示到列表中, 数组中每一项必须是对象，对象中必须有value属性
+            cb(arr);
         },
 
-        // 目标城市输入框获得焦点时触发
-        // value 是选中的值，cb是回调函数，接收要展示的列表
+
         queryDestSearch(value, cb){
-            cb([
-                {value: 1},
-                {value: 2},
-                {value: 3},
-            ]);
+
         },
        
         // 出发城市下拉选择时触发
         handleDepartSelect(item) {
-            
+            this.form.departCity = item.value;
+            this.form.departCode = item.sort;
         },
 
         // 目标城市下拉选择时触发
