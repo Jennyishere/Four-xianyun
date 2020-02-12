@@ -13,7 +13,8 @@
                             <span>{{data.org_airport_name}} {{data.org_airport_quay}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-time">
-                            <span>2时20分</span>
+                            <!-- 相隔时间 -->
+                            <span>{{rankTime}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-airport">
                             <strong>{{data.arr_time}}</strong>
@@ -68,6 +69,33 @@ export default {
         data: {
             type: Object, // 声明data属性的类型
             default: {},  // 如果组件调用时候不传data，采用默认值
+        }
+    },
+
+    computed: {
+        // 相隔时间
+        rankTime(){
+            const end = this.data.arr_time.split(":"); // 到达时间["14", "30"]
+            const start = this.data.dep_time.split(":"); // 出发时间["12","00"]
+
+            // 到达分钟和出发分钟
+            let endMin = end[0] * 60 + Number(end[1]);
+            let startMin = start[0] * 60 + Number(start[1]);
+
+            // 如果到达时间小于出发的时间，已经到达第二天
+            if(endMin < startMin){
+                endMin += 24 * 60;
+            }
+
+            // 相隔分钟
+            const dis = endMin - startMin;
+
+            // 小时
+            const hours = Math.floor(dis / 60);
+            // 分钟
+            const min = dis % 60;
+
+            return `${hours}小时${min}分`;
         }
     }
 }
