@@ -46,7 +46,8 @@
                 type="date" 
                 placeholder="请选择日期" 
                 style="width: 100%;"
-                @change="handleDate">
+                @change="handleDate"
+                :picker-options="pickerOptions">
                 </el-date-picker>
             </el-form-item>
 
@@ -90,7 +91,15 @@ export default {
             // 出发城市列表
             departData: [],
             // 到达城市列表
-            destData: []
+            destData: [],
+            
+            // 日期可选配置
+            pickerOptions: {
+                // 如果返回true表示可选
+                disabledDate(time) {
+                    return time.getTime() + 3600 * 1000 * 24 < Date.now();
+                },
+            }
         }
     },
     methods: {
