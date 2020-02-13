@@ -3,28 +3,37 @@
         <el-row type="flex" class="filters-top" justify="space-between" align="middle">
             <el-col :span="8">
                 单程： 
-                广州 - 上海 
+                {{data.info.departCity}} - {{data.info.destCity}} 
                 / 
-                2019-06-17
+                {{data.info.departDate}} 
             </el-col>
             <el-col :span="4">
                 <!-- 机场列表 -->
+                <!-- select中option的label是展示出来的文字，value是选择时候的值 -->
                 <el-select size="mini" 
                 v-model="airport" 
                 placeholder="起飞机场" 
                 @change="handleAirport">
                     <el-option
-                    label="白云机场"
-                    value="白云机场"
+                    v-for="(item, index) in data.options.airport"
+                    :key="index"
+                    :label="item"
+                    :value="item"
                     >
                     </el-option>
                 </el-select>
             </el-col>
             <el-col :span="4">
                 <!-- 起飞时间列表 -->
-                <el-select size="mini" v-model="flightTimes"  placeholder="起飞时间" @change="handleFlightTimes">
+                <el-select 
+                size="mini" 
+                v-model="flightTimes"  
+                placeholder="起飞时间" 
+                @change="handleFlightTimes">
                     <el-option
-                    label="00:00 - 06:00"
+                    v-for="(item, index) in data.options.flightTimes"
+                    :key="index"
+                    :label="`${item.from}:00 - ${item.to}:00`"
                     value="1"
                     >
                     </el-option>
@@ -32,16 +41,26 @@
             </el-col>
             <el-col :span="4">
                 <!-- 航空公司 -->
-                <el-select size="mini" v-model="company"  placeholder="航空公司" @change="handleCompany">
+                <el-select 
+                size="mini" 
+                v-model="company"  
+                placeholder="航空公司" 
+                @change="handleCompany">
                     <el-option
-                    label="厦门航空"
-                    value="厦门航空">
+                    v-for="(item, index) in data.options.company"
+                    :key="index"
+                    :label="item"
+                    :value="item">
                     </el-option>
                 </el-select>
             </el-col>
             <el-col :span="4">
                 <!-- 机型列表 -->
-                <el-select size="mini" v-model="airSize" placeholder="机型" @change="handleAirSize">
+                <el-select 
+                size="mini" 
+                v-model="airSize" 
+                placeholder="机型" 
+                @change="handleAirSize">
                     <el-option
                     label="大"
                     value="大">
@@ -73,10 +92,17 @@ export default {
             airSize: "",        // 机型大小
         }
     },
+    props: {
+        // 组件可以接收的属性
+        data: {
+            type: Object,
+            default: {}
+        }
+    },
     methods: {
         // 选择机场时候触发
         handleAirport(value){
-            
+            console.log(value)
         },
 
         // 选择出发时间时候触发
