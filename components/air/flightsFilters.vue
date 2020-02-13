@@ -34,7 +34,7 @@
                     v-for="(item, index) in data.options.flightTimes"
                     :key="index"
                     :label="`${item.from}:00 - ${item.to}:00`"
-                    value="1"
+                    :value="`${item.from},${item.to}`"
                     >
                     </el-option>
                 </el-select>
@@ -110,12 +110,27 @@ export default {
     methods: {
         // 选择机场时候触发
         handleAirport(value){
-            console.log(value)
+            // 从所有出发机场里面找到条件符合value的
+            const newData = this.data.flights.filter(v => {
+                // 如果return的值是true，说明是符合条件
+                return v.org_airport_name === value;
+            })
+
+            this.$emit("getData", newData);
         },
 
         // 选择出发时间时候触发
         handleFlightTimes(value){
+            const arr = value.split(","); // ["6","12"]
             
+            const newData = this.data.flights.filter(v => {
+                // 出发时间的小时
+                const hours = Number(v.dep_time.split(":")[0]);
+                // 判断出发的小时是否在选中的时间段内
+                return Number(arr[0]) <= hours && hours < Number(arr[1]);
+            })
+
+            this.$emit("getData", newData);
         },
 
          // 选择航空公司时候触发
@@ -131,7 +146,13 @@ export default {
 
          // 选择机型时候触发
         handleAirSize(value){
-           console.log(value)
+           // 从所有航班里面找到条件符合value的 （假设是东航）
+            const newData = this.data.flights.filter(v => {
+                // 如果return的值是true，说明是符合条件
+                return v.plane_size === value;
+            })
+
+            this.$emit("getData", newData);
         },
         
         // 撤销条件时候触发
