@@ -5,7 +5,7 @@
             <!-- 顶部过滤列表 -->
             <div class="flights-content">
                 <!-- 过滤条件 -->
-                <FlightsFilters :data="flightsData" @getData="getData"/>
+                <FlightsFilters :data="cacheFlightsData" @getData="getData"/>
                 
                 <!-- 航班头部布局 -->
                 <FlightsListHead/>
@@ -56,6 +56,11 @@ export default {
                 info: {},
                 options: {},
             },
+            // 数组备份,数据一旦赋值之后就不能被修改
+            cacheFlightsData: {
+                info: {},
+                options: {},
+            },
             // 当前页数
             pageIndex: 1,
             // 当前的条数
@@ -98,8 +103,11 @@ export default {
         }).then(res => {
             // 总数据
             this.flightsData = res.data;
+            // 备份一下数据, 注意res.data需要拷贝一份出来
+            this.cacheFlightsData = {...res.data};
+            
             // 修改总条数
-            this.total = this.flightsData.total;
+            this.total = this.flightsData.total;  
         })
     },
 
