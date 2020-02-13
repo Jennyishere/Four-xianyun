@@ -54,11 +54,13 @@ export default {
             // 机票总数据 （有info, flights, total, options这些属性）
             flightsData: {
                 info: {},
+                flights: [], // 数组
                 options: {},
             },
             // 数组备份,数据一旦赋值之后就不能被修改
             cacheFlightsData: {
                 info: {},
+                flights: [], // 数组
                 options: {},
             },
             // 当前页数
