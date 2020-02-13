@@ -62,8 +62,10 @@
                 placeholder="机型" 
                 @change="handleAirSize">
                     <el-option
-                    label="大"
-                    value="大">
+                    v-for="(item, index) in airSizeList"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value">
                     </el-option>
                 </el-select>
             </el-col>
@@ -71,11 +73,11 @@
         <div class="filter-cancel">
             筛选：
             <el-button 
-                       type="primary" 
-                       round 
-                       plain 
-                       size="mini" 
-                       @click="handleFiltersCancel">
+                type="primary" 
+                round 
+                plain 
+                size="mini" 
+                @click="handleFiltersCancel">
                 撤销
     		</el-button>
         </div>
@@ -90,6 +92,12 @@ export default {
             flightTimes: "",    // 出发时间
             company: "",        // 航空公司
             airSize: "",        // 机型大小
+
+            airSizeList: [      // 机型大小的列表
+                { label: "大", value: "L" },
+                { label: "中", value: "M" },
+                { label: "小", value: "S" }
+            ]
         }
     },
     props: {
@@ -112,12 +120,18 @@ export default {
 
          // 选择航空公司时候触发
         handleCompany(value){
-            
+            // 从所有航班里面找到条件符合value的 （假设是东航）
+            const newData = this.data.flights.filter(v => {
+                // 如果return的值是true，说明是符合条件
+                return v.airline_name === value;
+            })
+
+            this.$emit("getData", newData);
         },
 
          // 选择机型时候触发
         handleAirSize(value){
-           
+           console.log(value)
         },
         
         // 撤销条件时候触发

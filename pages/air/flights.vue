@@ -5,7 +5,7 @@
             <!-- 顶部过滤列表 -->
             <div class="flights-content">
                 <!-- 过滤条件 -->
-                <FlightsFilters :data="flightsData"/>
+                <FlightsFilters :data="flightsData" @getData="getData"/>
                 
                 <!-- 航班头部布局 -->
                 <FlightsListHead/>
@@ -113,6 +113,13 @@ export default {
         handleCurrentChange(index){
             this.pageIndex = index;
         },
+
+        // 获取过滤组件的过滤后的数组(arr就是过滤后的数组)
+        getData(arr){
+            this.flightsData.flights = arr;
+            // 总条数
+            this.total = arr.length;
+        }
     }
 }
 </script>
