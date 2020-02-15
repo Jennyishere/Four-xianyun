@@ -3,10 +3,17 @@
         <div class="air-column">
             <h2>剩机人</h2>
             <el-form class="member-info">
-                <div class="member-info-item" >
+                <!-- 乘机人一组信息，循环users -->
+                <div class="member-info-item" 
+                v-for="(item, index) in form.users"
+                :key="index">
 
                     <el-form-item label="乘机人类型">
-                        <el-input placeholder="姓名" class="input-with-select">
+                        <!-- 需要进行双向数据绑定 -->
+                        <el-input 
+                        placeholder="姓名" 
+                        class="input-with-select" 
+                        v-model="item.username">
                             <el-select 
                             slot="prepend" 
                             value="1" 
@@ -18,7 +25,9 @@
 
                     <el-form-item label="证件类型">
                         <el-input 
-                        placeholder="证件号码"  class="input-with-select">
+                        placeholder="证件号码"  
+                        class="input-with-select"
+                        v-model="item.id">
                             <el-select 
                             slot="prepend" 
                             value="1"           
@@ -28,7 +37,7 @@
                         </el-input>
                     </el-form-item>
 
-                    <span class="delete-user" @click="handleDeleteUser()">-</span>
+                    <span class="delete-user" @click="handleDeleteUser(index)">-</span>
                 </div>
             </el-form>
 
@@ -38,9 +47,12 @@
         <div class="air-column">
             <h2>保险</h2>
             <div>
-                <div class="insurance-item">
+                <!-- 循环渲染保险数据 -->
+                <div class="insurance-item" 
+                v-for="(item, index) in infoData.insurances"
+                :key="index">
                     <el-checkbox 
-                    label="航空意外险：￥30/份×1  最高赔付260万" 
+                    :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`" 
                     border>
                     </el-checkbox> 
                 </div>
@@ -75,15 +87,53 @@
 
 <script>
 export default {
+    data(){
+        return {
+            form: {
+                // 乘机人的列表
+                users:[
+                    {
+                        username: "",
+                        id: ""
+                    }
+                ],
+                insurances: [],
+                contactName: "",
+                contactPhone: "",
+                invoice: false,
+                seat_xid: this.$route.query.seat_xid,
+                air: this.$route.query.id,
+            },
+
+            // 当前机票的详细信息
+            infoData: {}
+        }
+    },
+    mounted(){
+        // 请求机票详细信息（保险还有右侧栏需要的数据）
+        const {id, seat_xid} = this.$route.query;
+        this.$axios({
+            url: "/airs/" + id,
+            params: {
+                seat_xid
+            }
+        }).then(res => {
+            // 赋值给机票的详细信息
+            this.infoData = res.data;
+        })
+    },
     methods: {
         // 添加乘机人
         handleAddUsers(){
-            
+            this.form.users.push({
+                username: "",
+                id: ""
+            })
         },
         
         // 移除乘机人
-        handleDeleteUser(){
-
+        handleDeleteUser(index){
+            this.form.users.splice(index, 1);
         },
         
         // 发送手机验证码
@@ -93,7 +143,7 @@ export default {
 
         // 提交订单
         handleSubmit(){
-            
+            console.log(this.form.users)
         }
     }
 }
