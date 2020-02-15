@@ -65,11 +65,13 @@
             <div class="contact">
                 <el-form label-width="60px">
                     <el-form-item label="姓名">
-                        <el-input></el-input>
+                        <el-input v-model="form.contactName"></el-input>
                     </el-form-item>
 
                     <el-form-item label="手机">
-                        <el-input placeholder="请输入内容">
+                        <el-input 
+                        placeholder="请输入内容" 
+                        v-model="form.contactPhone">
                             <template slot="append">
                             <el-button @click="handleSendCaptcha">发送验证码</el-button>
                             </template>
@@ -77,7 +79,7 @@
                     </el-form-item>
 
                     <el-form-item label="验证码">
-                        <el-input></el-input>
+                        <el-input v-model="form.captcha"></el-input>
                     </el-form-item>
                 </el-form>   
                 <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
@@ -101,6 +103,7 @@ export default {
                 insurances: [],
                 contactName: "",
                 contactPhone: "",
+                captcha: "", // 文档中缺少该属性（文档中写错了）
                 invoice: false,
                 seat_xid: this.$route.query.seat_xid,
                 air: this.$route.query.id,
@@ -154,11 +157,23 @@ export default {
         
         // 发送手机验证码
         handleSendCaptcha(){
-            
+            if(!this.form.contactPhone){
+                this.$message.error("手机号码不能为空")
+                return;
+            }
+            // 调用store/user.js中发送验证码方法
+            this.$store.dispatch(
+                "user/sendCaptcha", 
+                this.form.contactPhone
+            ).then(res => {
+                this.$message.success("验证码发送成功：000000")
+            } )
         },
 
         // 提交订单
         handleSubmit(){
+            // 自定义表单的验证
+            
             console.log(this.form.insurances)
         }
     }
