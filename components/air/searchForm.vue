@@ -301,12 +301,15 @@ export default {
                 return;
             }
 
-           // 跳转到 /air/flights，保证该页面url的参数有5个参数
-           this.$router.push({
+            // 把this.form保存到store中
+            this.$store.commit("air/setHistory", this.form)
+
+            // 跳转到 /air/flights，保证该页面url的参数有5个参数
+            this.$router.push({
                path: "/air/flights",
                // query是url的参数
                query: this.form
-           })
+            })
         }
     },
     mounted() {

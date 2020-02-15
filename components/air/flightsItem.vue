@@ -49,7 +49,8 @@
                         <el-col :span="3" class="choose-button">
                             <el-button 
                             type="warning" 
-                            size="mini">
+                            size="mini"
+                            @click="handleToOrder(item)">
                             选定
                             </el-button>
                             <p>剩余：{{item.discount}}</p>
@@ -101,6 +102,20 @@ export default {
             const min = dis % 60;
 
             return `${hours}小时${min}分`;
+        }
+    },
+
+    methods: {
+        // 跳转到订单
+        handleToOrder(item){
+            // 跳转到订单页，航班的id，座位id
+            this.$router.push({
+                path: "/air/order",
+                query: {
+                    id: this.data.id,
+                    seat_xid: item.seat_xid
+                }
+            })
         }
     }
 }
