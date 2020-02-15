@@ -173,8 +173,72 @@ export default {
         // 提交订单
         handleSubmit(){
             // 自定义表单的验证
-            
-            console.log(this.form.insurances)
+            const rules = {
+                // 校验用户列表
+                users: {
+                    errMessage: "乘机人信息不能为空",
+                    // 校验的函数,该函数返回是true的证明验证通过，如果是false就验证失败
+                    validator: () => {
+                        let valid = true;
+                        this.form.users.forEach(v => {
+                            // 只要有一个属性的值是空的话表单没通过
+                            if(!v.username || !v.id){
+                                valid = false;
+                            }
+                        });
+
+                        return valid;
+                    }
+                },
+
+                // 校验联系人
+                contactName: {
+                    errMessage: "联系人不能为空",
+                    validator: () => {
+                        return !!this.form.contactName;
+                    }
+                },
+
+                // 校验手机号码
+                contactPhone: {
+                    errMessage: "手机号码不能为空",
+                    validator: () => {
+                        return !!this.form.contactPhone;
+                    }
+                },
+
+                // 校验验证码
+                captcha: {
+                    errMessage: "验证码不能为空",
+                    validator: () => {
+                        return !!this.form.captcha;
+                    }
+                }
+            }
+
+            // 循环rules对象调用validator方法实现校验
+            // console.log(Object.keys(rules))
+
+            // 先假设所有校验都是通过的
+            let  valid = true;
+            Object.keys(rules).forEach(v => {
+                // 如果已经有字段校验不通过，就不用继续判断了
+                if(!valid) return;
+
+                const item = rules[v];
+                // 执行每个字段下的validator函数
+                valid = item.validator();
+                
+                if(!valid){
+                    this.$message.error(item.errMessage);
+                }
+            })
+
+            // 如果验证没通过，就直接返回
+            if(!valid) return;
+
+            // 调用提交订单的接口
+            // console.log(this.form.insurances)
         }
     }
 }
