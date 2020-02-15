@@ -98,13 +98,26 @@ export default {
     },
 
     // watch可以监听实例下任何属性的变化
-    watch: {
-        $route(){
-            // 每次url变化时候把pageIndex初始化为1
-            this.pageIndex = 1;
-            // 请求机票列表数据
-            this.getList();
-        }
+    // watch: {
+    //     $route(){
+    //         // 每次url变化时候把pageIndex初始化为1
+    //         this.pageIndex = 1;
+    //         // 请求机票列表数据
+    //         this.getList();
+    //     }
+    // },
+
+    // 文档地址：https://router.vuejs.org/zh/guide/advanced/navigation-guards
+    // 在当前路由改变，但是该组件被复用时调用
+    // to: 要跳转的页面路由对象
+    // from：要离开页面路有对象
+    // next 是必须要调用
+    beforeRouteUpdate (to, from, next) {
+        // 每次url变化时候把pageIndex初始化为1
+        this.pageIndex = 1;
+        // 请求机票列表数据
+        this.getList();
+        next();
     },
 
     mounted(){
