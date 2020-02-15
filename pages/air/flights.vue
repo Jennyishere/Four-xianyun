@@ -34,9 +34,7 @@
             </div>
 
             <!-- 侧边栏 -->
-            <div class="aside">
-                <!-- 侧边栏组件 -->
-            </div>
+            <FlightsAside/>
         </el-row>
     </section>
 </template>
@@ -47,6 +45,7 @@
 import FlightsListHead from "@/components/air/flightsListHead"
 import FlightsItem from "@/components/air/flightsItem"
 import FlightsFilters from "@/components/air/flightsFilters"
+import FlightsAside from "@/components/air/flightsAside"
 
 export default {
     data(){
@@ -94,26 +93,42 @@ export default {
     components: {
         FlightsListHead,
         FlightsItem,
-        FlightsFilters
+        FlightsFilters,
+        FlightsAside
+    },
+
+    // watch可以监听实例下任何属性的变化
+    watch: {
+        $route(){
+            // 每次url变化时候把pageIndex初始化为1
+            this.pageIndex = 1;
+            // 请求机票列表数据
+            this.getList();
+        }
     },
 
     mounted(){
-        // 请求机票列表数据
-        this.$axios({
-            url: "/airs",
-            params: this.$route.query
-        }).then(res => {
-            // 总数据
-            this.flightsData = res.data;
-            // 备份一下数据, 注意res.data需要拷贝一份出来
-            this.cacheFlightsData = {...res.data};
-            
-            // 修改总条数
-            this.total = this.flightsData.total;  
-        })
+        // 请求机票列表接口
+        this.getList();
     },
 
     methods: {
+        // 请求机票列表接口
+        getList(){
+            // 请求机票列表数据
+            this.$axios({
+                url: "/airs",
+                params: this.$route.query
+            }).then(res => {
+                // 总数据
+                this.flightsData = res.data;
+                // 备份一下数据, 注意res.data需要拷贝一份出来
+                this.cacheFlightsData = {...res.data};
+                
+                // 修改总条数
+                this.total = this.flightsData.total;  
+            })
+        },
         // 切换条数时候触发的事件
         handleSizeChange(index){
             this.pageSize = index;
