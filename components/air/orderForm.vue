@@ -53,7 +53,8 @@
                 :key="index">
                     <el-checkbox 
                     :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`" 
-                    border>
+                    border
+                    @change="handleInsurance(item.id)">
                     </el-checkbox> 
                 </div>
             </div>
@@ -130,6 +131,21 @@ export default {
                 id: ""
             })
         },
+
+        // 处理保险数据的
+        handleInsurance(id){
+            // 先判断数组中是否存在该id
+            const index = this.form.insurances.indexOf(id);
+
+            // 如果已经有了这个id，说明当前是取消的状态
+            if(index > -1){
+                // 删除该id
+                this.form.insurances.splice(index, 1);
+            }else{
+                // 没有id就是新增
+                this.form.insurances.push(id);
+            }
+        },
         
         // 移除乘机人
         handleDeleteUser(index){
@@ -143,7 +159,7 @@ export default {
 
         // 提交订单
         handleSubmit(){
-            console.log(this.form.users)
+            console.log(this.form.insurances)
         }
     }
 }
