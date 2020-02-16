@@ -124,6 +124,9 @@ export default {
         }).then(res => {
             // 赋值给机票的详细信息
             this.infoData = res.data;
+
+            // 把infoData保存到store
+            this.$store.commit("air/setOrderDetail", this.infoData)
         })
     },
     methods: {
@@ -247,7 +250,7 @@ export default {
                     Authorization: `Bearer ` + this.$store.state.user.userInfo.token
                 }
             }).then(res => {
-                console.log(res);
+                this.$message.success("订单提交成功");
             })
         }
     }

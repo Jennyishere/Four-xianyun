@@ -1,7 +1,12 @@
 export const state = () => {
     return {
         // 历史查询数组
-        history: []
+        history: [],
+        // 订单的详细信息
+        orderDetail: {
+            // 为了避免模板报错
+            seat_infos: {}
+        }
     }
 }
 
@@ -12,5 +17,10 @@ export const mutations = {
         state.history.unshift(data);
         // 截取数组的长度为5
         state.history.length = 5;
+    },
+
+    // 修改orderDetail的数据
+    setOrderDetail(state, data){
+        state.orderDetail = data;
     }
 }
