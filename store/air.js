@@ -18,7 +18,9 @@ export const mutations = {
         // 把新的搜索记录添加到第一位
         state.history.unshift(data);
         // 截取数组的长度为5
-        state.history.length = 5;
+        if(state.history.length > 5){
+            state.history.length = 5;
+        }
     },
 
     // 修改orderDetail的数据
