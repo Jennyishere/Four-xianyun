@@ -41,7 +41,7 @@
         </el-row>
         <el-row type="flex" justify="space-between" align="middle" class="info-bar">
             <span>应付总额：</span>
-            <span class="price">￥ </span>
+            <span class="price">￥{{Number($store.state.air.allPrice).toFixed(2)}} </span>
         </el-row>           
     </div>
 </template>
