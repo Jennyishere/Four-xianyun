@@ -14,5 +14,13 @@ export default  (data) => {
             // 使用elementui组件提示错误
             Message.error(message)
         }
+
+        // 当前请求的token是有问题，401一般是因为token是错误或者过期，403是因为接口没有传token
+        if(statusCode === 401 || statusCode === 403){
+            // 跳转到登录页
+            data.redirect(200, "/user/login", {
+                returnUrl: data.route.fullPath
+            })
+        }
     })
 }

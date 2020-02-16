@@ -115,9 +115,12 @@ export default {
     beforeRouteUpdate (to, from, next) {
         // 每次url变化时候把pageIndex初始化为1
         this.pageIndex = 1;
-        // 请求机票列表数据
-        this.getList();
+
+        // 跳转到下一页
         next();
+
+        // 请求机票列表数据
+        this.getList();  
     },
 
     mounted(){

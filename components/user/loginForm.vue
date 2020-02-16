@@ -84,8 +84,11 @@ export default {
                     // 通过commit调用actions中的方法
                     this.$store.dispatch("user/login", this.form).then(() => {
                          this.$message.success("登录成功!");
-                         // 跳转到首页
-                         this.$router.push("/")
+                         // 跳转到首页, 如果使用push跳转，路由内存里面会多一条记录，
+                         // 如果是replace替换当前的路由
+
+                         // 如果this.$route.query.returnUrl没有值，跳转到首页
+                         this.$router.replace(this.$route.query.returnUrl || "/")
                     });
                 }
             }) 

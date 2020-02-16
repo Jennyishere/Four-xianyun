@@ -313,7 +313,7 @@ export default {
         }
     },
     mounted() {
-       
+      
     }
 }
 </script>
