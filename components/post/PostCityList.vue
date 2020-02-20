@@ -4,7 +4,7 @@
       <!-- //上下图片 -->
 
       <div class="post-item" v-if="item.images.length>=3">
-        <nuxt-link :to="`/post/detail?id=${item.id}`">
+        <nuxt-link :to="`/post/Strategy?id=${item.id}`">
           <h4 title="塞班贵？一定是你的打开方式不对！6000块玩转塞班" class="post-title">
             <a href="#">{{item.title}}</a>
           </h4>
@@ -39,7 +39,7 @@
       </div>
       <!-- 左右 -->
       <div v-if="item.images.length<=2">
-        <nuxt-link :to="`/post/detail?id=${item.id}`">
+        <nuxt-link :to="`/post/Strategy?id=${item.id}`">
           <el-row type="flex" justify="space-between" class="post-item">
             <div>
               <div class="post-cover">
