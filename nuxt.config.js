@@ -35,6 +35,7 @@ export default {
     { src: '@/plugins/localStorage', ssr: false },
     "@/plugins/axios",
     { src: '~/plugins/rich-editor', ssr: false },
+    { src: '~/plugins/vue-editor', ssr: false },
   ],
   /*
   ** Nuxt.js dev-modules

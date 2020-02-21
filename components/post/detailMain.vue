@@ -31,7 +31,7 @@ export default {
       const {data} = res.data
       
       this.detailList=data
-      console.log(this.detailList)
+     // console.log(this.detailList)
 
     })
   }
