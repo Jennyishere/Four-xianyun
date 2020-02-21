@@ -3,7 +3,7 @@
     <div class="main">
       <h2>发表新攻略</h2>
       <p class="share">分享你的个人游记，让更多人看到哦！</p>
-      <el-form ref="form" :model="form">
+      <el-form ref="form">
         <el-form-item>
           <el-input v-model="form.title" placeholder="请输入标题"></el-input>
         </el-form-item>
@@ -137,8 +137,8 @@ export default {
     },
     // 编辑草稿
     edit(value) {
-      console.log(value);
-      this.form = value;
+      let form = {...value}
+      this.form = form;
     },
     // 不输入内容提示
     tip(name) {
