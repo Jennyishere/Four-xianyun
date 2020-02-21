@@ -3,7 +3,7 @@
     <el-container>
       <!-- 左边 -->
          <div>
-        <el-aside width="500px">
+        <el-aside width="450px">
         
       </el-aside>
       </div>
@@ -19,9 +19,8 @@
             </el-breadcrumb>
           </div>
           <!-- 标题 渲染地方 -->
-          <div>
-            <h1>塞班贵？一定是你的打开方式不对！6000块玩转塞班</h1>
-          </div>
+          <div v-html='detail[0].title' v-if='detail[0]'></div>
+         
           </div>
         </el-header>
         <!-- Main -->
@@ -36,18 +35,7 @@
       <!-- 相关攻略 -->
       <div>
         <el-aside width="500px">
-        <p>相关攻略</p>
-        <!-- 循环 -->
-    
-   
-    <el-row>
-  <el-col :span="12"><div class="grid-content bg-purple"><img src="../../images/pic_sea.jpeg" alt /> </div></el-col>
-  <el-col :span="12"><div class="grid-content bg-purple-light">
-    <div>发布测试</div>
-    <p>2020-02-20 7:50 阅读 4</p>
-    </div></el-col>
-</el-row>
-        <nuxt-link to="/RaidersDetails">关于</nuxt-link>
+        <DetailRecommend/>
       </el-aside>
       </div>
     </el-container>
@@ -55,21 +43,47 @@
 </template>
 
 <script>
+
 import DetailMain from "@/components/post/detailMain";
 import DetailFooter from "@/components/post/detailFooter";
+import DetailRecommend from "@/components/post/detailRecommend";
+
 
 export default {
   components: {
     DetailMain,
-    DetailFooter
+    DetailFooter,
+    DetailRecommend
   },
   data() {
     return {
       //存储数据
-      StrategyList:[],
-      data:[]
+      detail:[
+            
+          ],
+     
     };
   },
+  mounted(){
+    const {id} = this.$route.query;
+    //console.log(id)
+    
+    //请求文章详情
+    this.$axios({
+      url:'/posts',
+      params: {
+                    id,
+                    
+                }
+    }).then(res =>{
+      //console.log(res)
+      const {data} = res.data
+      
+      this.detail=data
+      console.log(this.detail)
+
+    })
+  }
   
 };
 </script>

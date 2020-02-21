@@ -1,8 +1,11 @@
 <template>
     <div>
-         <el-col :span="24"><div class="grid-content bg-purple-dark">攻略：2019-05-22 10:57 阅读：13948</div></el-col>
-         <!-- <span>{{detailList.data.city.created_at}}</span> -->
-         <div class="content" v-html='detailList[0].content'></div>
+         
+         攻略:<span v-html='detailList[0].city.created_at' v-if='detailList[0]'></span>
+         阅读:<span v-html='detailList[0].watch' v-if='detailList[0]'></span>
+                  <div class="content" v-html='detailList[0].content' v-if='detailList[0]'></div>
+
+         
     </div>
 </template>
 
@@ -10,10 +13,7 @@
 export default {
    data(){
        return{
-          detailList:[
-            
-          ],
-          
+          detailList:[],
        }
    },
    mounted(){
@@ -24,11 +24,10 @@ export default {
     this.$axios({
       url:'/posts',
       params: {
-                    id,
-                    
+                    id, 
                 }
     }).then(res =>{
-      console.log(res)
+      //console.log(res)
       const {data} = res.data
       
       this.detailList=data
