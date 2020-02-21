@@ -16,14 +16,14 @@
       <!-- 右侧列表 -->
       <div class="post-wrapper">
         <!-- 搜索框 -->
-        <Citysearch/>
+        <Citysearch />
         <!-- 推荐攻略 -->
         <el-row type="flex" justify="space-between" class="post-title">
           <h4>推荐攻略</h4>
           <el-button type="primary" icon="el-icon-edit">写游记</el-button>
         </el-row>
         <!-- 城市文章列表 -->
-        <Citylist/>
+        <Citylist />
       </div>
     </el-row>
   </section>
@@ -35,7 +35,9 @@ import Citysearch from '../../components/post/PostCitysearch';//搜索框
 import Citylist from '../../components/post/PostCityList';//城市列表
 export default {
   data() {
-    return {};
+    return {
+      searchCityList:''
+    };
   },
   components: {
     //菜单城市
@@ -44,7 +46,11 @@ export default {
     Citysearch,
     //城市列表
     Citylist
+  },
+  methods: {
+    
   }
+
 };
 </script>
 
