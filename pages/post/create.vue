@@ -8,11 +8,9 @@
           <el-input v-model="form.title" placeholder="请输入标题"></el-input>
         </el-form-item>
         <!-- 编辑器 -->
-        <template>
-          <div id="app">
-            <VueEditor :config="config" ref="myeditor" />
-          </div>
-        </template>
+        <client-only>
+          <vue-editor v-model="form.content" class="editor"></vue-editor>
+        </client-only>
         <!-- 选择城市 -->
         <el-form-item label="选择城市" label-width="80px" style="width:300px">
           <el-autocomplete
@@ -37,12 +35,9 @@
     <!-- 侧边栏 -->
     <div class="aside">
       <div>草稿箱（{{$store.state.post.draft.length}}）</div>
-      <div 
-         class="draft" 
-         v-for="(item,index) in $store.state.post.draft" 
-         :key="index">
-        <div class="title"  @click="edit(item)">
-          <span >{{item.title}}</span>
+      <div class="draft" v-for="(item,index) in $store.state.post.draft" :key="index">
+        <div class="title" @click="edit(item)">
+          <span>{{item.title}}</span>
           <i class="el-icon-edit"></i>
         </div>
         <p>{{item.date}}</p>
@@ -53,17 +48,7 @@
 
 <script>
 import moment from "moment";
-import "quill/dist/quill.snow.css";
-let VueEditor;
-
-if (process.browser) {
-  VueEditor = require("vue-word-editor").default;
-}
 export default {
-  name: "app",
-  components: {
-    VueEditor
-  },
   mounted() {
     // this.$axios({
     //   url:'/posts',
@@ -86,20 +71,20 @@ export default {
         // 上传图片的配置
         uploadImage: {
           //这里设置的是线上的地址，若使用线下的地址需要把地址修改为线下的，不然上传图片和视频会失败
-          url: "http://127.0.0.1:1337/upload",
+          url: "http://157.122.54.189:9095/upload",
           name: "files",
           // res是结果，insert方法会把内容注入到编辑器中，res.data.url是资源地址
           uploadSuccess(res, insert) {
-            insert("http://127.0.0.1:1337" + res.data[0].url);
+            insert("http://157.122.54.189:9095" + res.data[0].url);
           }
         },
 
         // 上传视频的配置
         uploadVideo: {
-          url: "http://127.0.0.1:1337/upload",
+          url: "http://157.122.54.189:9095/upload",
           name: "files",
           uploadSuccess(res, insert) {
-            insert("http://127.0.0.1:1337" + res.data[0].url);
+            insert("http://157.122.54.189:9095" + res.data[0].url);
           }
         }
       },
@@ -115,11 +100,7 @@ export default {
         return;
       }
       // 判断内容是否为空
-      if (
-        this.$refs.myeditor.editor.root.innerText.trim().length === 0 &&
-        this.$refs.myeditor.editor.root.innerHTML.indexOf("img") === -1 &&
-        this.$refs.myeditor.editor.root.innerHTML.indexOf("video") === -1
-      ) {
+      if (this.form.content.trim().length === 0) {
         this.tip("内容");
         return;
       }
@@ -129,10 +110,9 @@ export default {
         return;
       }
       // 判断是否登录
-      if(!this.$store.state.user.userInfo.token){
-        this.$message.error('请先登录')
+      if (!this.$store.state.user.userInfo.token) {
+        this.$message.error("请先登录");
       }
-      this.form.content = this.$refs.myeditor.editor.root.innerHTML;
       this.$axios({
         url: "/posts",
         method: "POST",
@@ -141,30 +121,24 @@ export default {
           Authorization: `Bearer ` + this.$store.state.user.userInfo.token
         }
       }).then(res => {
-        if(res.data.message === "新增成功"){
-          this.$message.success(res.data.message)
-        }else{
-          this.$message.error(res.data.message)
+        if (res.data.message === "新增成功") {
+          this.$message.success(res.data.message);
+        } else {
+          this.$message.error(res.data.message);
         }
       });
     },
     // 保存草稿
     save() {
-      this.form.content = this.$refs.myeditor.editor.root.innerHTML;
       let date = new Date();
       let a = moment(date).format("YYYY-MM-DD");
       this.form.date = a;
-      console.log(this.form)
       this.$store.commit("post/setDraft", this.form);
     },
     // 编辑草稿
-    edit(value){
-      console.log(value)
-      this.form = value
-      this.$refs.myeditor.editor.clipboard.dangerouslyPasteHTML(
-          0,
-          this.form.content
-        );
+    edit(value) {
+      console.log(value);
+      this.form = value;
     },
     // 不输入内容提示
     tip(name) {
@@ -178,7 +152,7 @@ export default {
         }
       });
     },
-    //选择城市关键字联线 
+    //选择城市关键字联线
     queryDepartSearch(value, cb) {
       if (!value) {
         this.defartData = [];
@@ -186,9 +160,9 @@ export default {
         return;
       }
       this.querySearch(this.form.city).then(arr => {
-          this.defartData = arr;
-          cb(arr);
-      })
+        this.defartData = arr;
+        cb(arr);
+      });
     },
     // 发请求获取关键字
     querySearch(value) {
@@ -216,8 +190,8 @@ export default {
         this.form.city = this.defartData[0].value;
       }
     },
-    departFocus(){
-      this.form.city = null
+    departFocus() {
+      this.form.city = null;
     }
   }
 };
@@ -247,12 +221,9 @@ export default {
   }
   .el-form {
     width: 750px;
-    #app {
-      width: 100%;
-      height: 458px;
-      #vue-editor-wrapper {
-        height: 400px;
-      }
+    .editor{
+      margin-bottom: 102px;
+      height: 400px;
     }
     .save {
       margin-left: 10px;
@@ -265,16 +236,16 @@ export default {
       }
     }
   }
-  .aside{
-    .draft{
+  .aside {
+    .draft {
       font-size: 14px;
       margin-top: 10px;
-      .title:hover{
+      .title:hover {
         color: orange;
         text-decoration: underline;
         cursor: pointer;
       }
-      p{
+      p {
         color: #999;
       }
     }

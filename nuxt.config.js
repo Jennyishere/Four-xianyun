@@ -33,7 +33,8 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     { src: '@/plugins/localStorage', ssr: false },
-    "@/plugins/axios"
+    "@/plugins/axios",
+    { src: '~/plugins/vue-editor.js', mode: 'client' }
   ],
   /*
   ** Nuxt.js dev-modules

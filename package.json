@@ -19,6 +19,7 @@
     "nuxt": "^2.0.0",
     "qrcode": "^1.4.4",
     "vue-word-editor": "0.0.3",
+    "vue2-editor": "^2.10.2",
     "vuex-persistedstate": "^2.7.1"
   },
   "devDependencies": {}
