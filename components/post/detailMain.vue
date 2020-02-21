@@ -1,10 +1,8 @@
 <template>
     <div>
          <el-col :span="24"><div class="grid-content bg-purple-dark">攻略：2019-05-22 10:57 阅读：13948</div></el-col>
-         <span>{{dataList}}</span>
-         <div class="content">
-             
-         </div>
+         <!-- <span>{{detailList.data.city.created_at}}</span> -->
+         <div class="content" v-html='detailList[0].content'></div>
     </div>
 </template>
 
@@ -12,27 +10,29 @@
 export default {
    data(){
        return{
-           dataList:[]
+          detailList:[
+            
+          ],
+          
        }
    },
    mounted(){
-    const {id} =this.$route;
+    const {id} = this.$route.query;
     //console.log(id)
     
     //请求文章详情
     this.$axios({
       url:'/posts',
-      
-      query: {
+      params: {
                     id,
                     
                 }
     }).then(res =>{
-      console.log(res.data)
-      this.dataList = res.data.data
+      console.log(res)
+      const {data} = res.data
       
-      
-      console.log(this.dataList)
+      this.detailList=data
+      console.log(this.detailList)
 
     })
   }

@@ -26,11 +26,11 @@
         </el-header>
         <!-- Main -->
         <el-main>
-          <StrategyMain/>
+          <DetailMain/>
         </el-main>
         <!-- 评论区 -->
          <el-footer>
-           <StrategyFooter/>
+           <DetailFooter/>
          </el-footer>
       </el-container>
       <!-- 相关攻略 -->
@@ -55,13 +55,13 @@
 </template>
 
 <script>
-import StrategyMain from "@/components/post/StrategyMain";
-import StrategyFooter from "@/components/post/StrategyFooter";
+import DetailMain from "@/components/post/detailMain";
+import DetailFooter from "@/components/post/detailFooter";
 
 export default {
   components: {
-    StrategyMain,
-    StrategyFooter
+    DetailMain,
+    DetailFooter
   },
   data() {
     return {
