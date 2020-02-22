@@ -123,6 +123,9 @@ export default {
       }).then(res => {
         if (res.data.message === "新增成功") {
           this.$message.success(res.data.message);
+          this.form.content = '' ;
+          this.form.title = '';
+          this.form.city = '';
         } else {
           this.$message.error(res.data.message);
         }
