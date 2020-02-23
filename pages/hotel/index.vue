@@ -49,7 +49,8 @@ export default {
     };
   },
   mounted() {
-    this.getCityZone();
+    // 获取区域
+    this.getCityZone(this.city);
   },
   methods: {
     // 拿到定位的地址
@@ -58,16 +59,15 @@ export default {
     },
     // 搜索价格
     sendData(data) {
-      console.log(data);
       this.getCityId(data.city);
       delete data.city;
       let copy = { ...data, ...this.filters };
       this.filters = copy;
       // console.log(this.filters);
-
+      // 调用搜索
       this.getHotel();
     },
-
+    // 接受城市输入
     sendCity(val) {
       this.city = val;
       this.getCityZone();
@@ -75,11 +75,13 @@ export default {
     getCityZone() {
       this.getCityId(this.city);
     },
+    // 酒店搜索
     searchData(data) {
       this.filters = data;
       // console.log(this.filters);
       this.getHotel();
     },
+    // 获取城市id
     getCityId(city) {
       this.$axios({
         url: "/cities",
@@ -92,6 +94,7 @@ export default {
         this.filters.city = this.cityPlaces.id;
       });
     },
+    // 获取酒店
     getHotel() {
       // 最终的参数字符串
       let strArr = [];
@@ -113,7 +116,7 @@ export default {
       var queryStr = strArr.join("&"); // 输出 hotellevel_in=&hotellevel_in=2&city=197
       // = "/hotel?" + queryStr;
       // console.log(this.$router.path);
-      this.$router.replace('/hotel?'+queryStr)
+      this.$router.replace("/hotel?" + queryStr);
 
       this.$axios({
         url: "hotels?" + queryStr

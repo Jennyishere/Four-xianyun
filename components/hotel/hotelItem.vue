@@ -52,7 +52,7 @@
         </el-col>
       </el-row>
       <el-pagination
-        v-if="dataList.length"
+        v-if="dataList && dataList.length!=0"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -61,7 +61,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="data.length"
       ></el-pagination>
-      <div class="nodata" v-if="!dataList.length">暂无数据</div>
+      <div class="nodata" v-if="dataList && dataList.length==0">暂无数据</div>
       {{filter}}
     </div>
   </div>
@@ -89,7 +89,7 @@ export default {
   computed: {
     filter() {
       this.currentPage = 1;
-      if (dataList) {
+      if (this.dataList) {
         this.sliceData();
       }
 
