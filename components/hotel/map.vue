@@ -28,13 +28,12 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.path == "/hotel") {
-      // 地图加载完毕之后会触发
-      window.onLoad = () => {
-        var map = new AMap.Map("container", {
-          zoom: 11 //级别
-        });
-      };
+    // 地图加载完毕之后会触发
+    window.onLoad = () => {
+      var map = new AMap.Map("container", {
+        zoom: 11 //级别
+      });
+
       // 定位
       AMap.plugin("AMap.Geolocation", () => {
         var geolocation = new AMap.Geolocation({
@@ -57,29 +56,28 @@ export default {
           // 弹窗告知用户的定位
           if (this.$route.path == "/hotel") {
             this.open(data.addressComponent.city);
-          }
+            // (点标记)创建一个 Marker 实例：
+            var markerList = [];
+            this.locations.forEach((v, i) => {
+              var marker = new AMap.Marker({
+                position: new AMap.LngLat(v.longitude, v.latitude), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+                // title: data.formattedAddress
+                map: map,
+                offset: new AMap.Pixel(-10, -10),
+                icon: "//vdata.amap.com/icons/b18/1/2.png"
+              });
 
-          // (点标记)创建一个 Marker 实例：
-          var markerList = [];
-          this.locations.forEach((v, i) => {
-            var marker = new AMap.Marker({
-              position: new AMap.LngLat(v.longitude, v.latitude), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-              // title: data.formattedAddress
-              map: map,
-              offset: new AMap.Pixel(-10, -10),
-              icon: "//vdata.amap.com/icons/b18/1/2.png"
+              markerList.push(marker);
             });
 
-            markerList.push(marker);
-          });
+            // 将创建的点标记添加到已有的地图实例：
 
-          // 将创建的点标记添加到已有的地图实例：
+            map.add(markerList);
 
-          map.add(markerList);
-
-          // map.add(marker);
-          // 移除已创建的 marker
-          // map.remove(marker);
+            // map.add(marker);
+            // 移除已创建的 marker
+            // map.remove(marker);
+          }
         };
         geolocation.getCurrentPosition();
         AMap.event.addListener(geolocation, "complete", onComplete);
@@ -89,13 +87,14 @@ export default {
           // 定位出错
         }
       });
-      var url =
-        "https://webapi.amap.com/maps?v=1.4.15&key=39406c0b73d92c64b2365096ff6d0236&callback=onLoad";
-      var jsapi = document.createElement("script");
-      jsapi.charset = "utf-8";
-      jsapi.src = url;
-      document.head.appendChild(jsapi);
-    }
+    };
+
+    var url =
+      "https://webapi.amap.com/maps?v=1.4.15&key=39406c0b73d92c64b2365096ff6d0236&callback=onLoad";
+    var jsapi = document.createElement("script");
+    jsapi.charset = "utf-8";
+    jsapi.src = url;
+    document.head.appendChild(jsapi);
   },
   methods: {
     open(data) {
