@@ -54,7 +54,8 @@ export default {
           });
           // data是具体的定位信息
           // 弹窗告知用户的定位
-          this.open(data.addressComponent.city);
+          if(this.$route.path=='/hotel'){ this.open(data.addressComponent.city);}
+                
           // (点标记)创建一个 Marker 实例：
           var markerList = [];
           this.locations.forEach((v, i) => {

@@ -22,7 +22,13 @@
             经济型
           </div>
           <el-row class="rate" type="flex">
-            <el-rate disabled show-score text-color="#ff9900" :score-template="`${item.stars}分`"></el-rate>
+            <el-rate
+              v-model="value"
+              disabled
+              show-score
+              text-color="#ff9900"
+              :score-template="`${item.stars}分`"
+            ></el-rate>
             <span>
               <i>{{item.all_remarks}}</i>条评价
             </span>
@@ -71,6 +77,7 @@ export default {
   },
   data() {
     return {
+      value: 3.7,
       pageSize: 5,
       currentPage: 1,
       dataList: []
@@ -82,7 +89,9 @@ export default {
   computed: {
     filter() {
       this.currentPage = 1;
-      this.sliceData();
+      if (dataList) {
+        this.sliceData();
+      }
 
       return "";
     }

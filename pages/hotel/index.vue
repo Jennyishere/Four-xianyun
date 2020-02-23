@@ -111,7 +111,9 @@ export default {
       });
 
       var queryStr = strArr.join("&"); // 输出 hotellevel_in=&hotellevel_in=2&city=197
-      console.log(this.$route);
+      // = "/hotel?" + queryStr;
+      // console.log(this.$router.path);
+      this.$router.replace('/hotel?'+queryStr)
 
       this.$axios({
         url: "hotels?" + queryStr
