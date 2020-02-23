@@ -26,10 +26,11 @@
         <!-- Main -->
         <el-main>
           <DetailMain/>
+          <DetailFooter/>
         </el-main>
         <!-- 评论区 -->
          <el-footer>
-           <DetailFooter/>
+           
          </el-footer>
       </el-container>
       <!-- 相关攻略 -->
@@ -83,15 +84,45 @@ export default {
      // console.log(this.detail)
 
     })
-  }
+  },
+  //监听url变化
+    watch: {
+        $route(){
+             this.getData();
+        }
+    },
+    methods:{
+      getData(){
+        //请求数据
+        const {id} = this.$route.query;
+    //console.log(id)
+    
+    //请求文章详情
+    this.$axios({
+      url:'/posts',
+      params: {
+                    id,
+                    
+                }
+    }).then(res =>{
+      //console.log(res)
+      const {data} = res.data
+      
+      this.detail=data
+     // console.log(this.detail)
+    this.$router.go(0)
+    })
+      }
+    }
   
 };
 </script>
 
 <style scoped lang="less">
 .RaidersDetails {
-  margin: 0 atuo;
+ margin: auto;
 }
+
 
 .el-header,
 .el-footer {

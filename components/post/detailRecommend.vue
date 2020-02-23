@@ -6,12 +6,13 @@
               <el-row :gutter="20">
               <!-- 图片 -->
               <nuxt-link :to="`/post/detail?id=${item.id}`">
-              <el-col :span="10"><div class="grid-content bg-purple" v-html="Recommend[index +1].content" v-if="Recommend[index +1]"></div></el-col>
+              <img class="tupian" :src="item.images[0]" alt="">
+              <el-col :span="10"><div class="grid-content bg-purple"  v-if="Recommend[index ]">{{item.title}}</div></el-col>
               
-              
+                
               <!-- 内容 -->
               
-              <el-col :span="10"><div class="grid-content bg-purple"> {{Recommend.title}} <p>2020-02-21 6:57 阅读 {{Recommend.watch}}</p></div></el-col>
+              <el-col :span="10"><div class="grid-content bg-purple">  <p>2020-02-21 6:57 阅读 {{item.watch}}</p></div></el-col>
                     </nuxt-link>
                   
                      
@@ -48,13 +49,17 @@ mounted(){
         console.log(res)
         const {data} =res.data
         this.Recommend =data
-        console.log(this.Recommend)
+        //console.log(this.Recommend)
     })
 }
 }
 </script>
 
 <style scoped lang="less">
+.tupian{
+  width: 100px;
+  height: 80px;
+}
   .el-row {
     margin-bottom: 20px;
     &:last-child {
