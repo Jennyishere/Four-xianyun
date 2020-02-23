@@ -43,7 +43,7 @@
    
    >
       <h2>评论</h2>
-      <div class="item" v-for="(item,index) in  pinglun" :key='index'>
+      <div class="item" v-for="(item,index) in     dataList" :key='index'>
         <div class="head">
           <img :src="item.account.defaultAvatar" alt /> <p>{{item.account.nickname}}</p>
           <div>
@@ -101,6 +101,15 @@ export default {
       
     };
   },
+  computed:{
+    dataList(){
+      const arr =this.pinglun.slice(
+         (this.pageIndex - 1) * this.pageSize, 
+          this.pageIndex * this.pageSize
+      )
+      return arr;
+  },
+  },
   mounted() {
     //分页
     this.getData();
@@ -143,12 +152,13 @@ export default {
   },
   methods: {
     //分页
-        handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+        handleSizeChange(index) {
+       this.pageSize = index;
     },
     handleCurrentChange(index) {
-      this.start = (index - 1) * this.limit;
-      this.getData();
+      //this.start = (index - 1) * this.limit;
+       this.pageIndex = index;
+      //this.getData();
 
        
     },
@@ -192,13 +202,14 @@ this.$axios({
        // console.log(res)
        const {data, total} = res.data;
       this.list = data;
+      console.log(this.list)
       this.total = total;
 
       });
     }
 
   }
-};
+}
 </script>
 
 <style scoped lang="less">
@@ -310,4 +321,5 @@ i {
     font-size: 13px;
   }
 }
+
 </style>
