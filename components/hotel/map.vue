@@ -28,12 +28,13 @@ export default {
     }
   },
   mounted() {
-
-    // 地图加载完毕之后会触发
-    window.onLoad = () => {
-      var map = new AMap.Map("container", {
-        zoom: 11 //级别
-      });
+    if (this.$route.path == "/hotel") {
+      // 地图加载完毕之后会触发
+      window.onLoad = () => {
+        var map = new AMap.Map("container", {
+          zoom: 11 //级别
+        });
+      };
       // 定位
       AMap.plugin("AMap.Geolocation", () => {
         var geolocation = new AMap.Geolocation({
@@ -54,8 +55,10 @@ export default {
           });
           // data是具体的定位信息
           // 弹窗告知用户的定位
-          if(this.$route.path=='/hotel'){ this.open(data.addressComponent.city);}
-                
+          if (this.$route.path == "/hotel") {
+            this.open(data.addressComponent.city);
+          }
+
           // (点标记)创建一个 Marker 实例：
           var markerList = [];
           this.locations.forEach((v, i) => {
@@ -86,7 +89,7 @@ export default {
           // 定位出错
         }
       });
-    };
+    }
     console.log(this.currentCity); //空
 
     var url =
