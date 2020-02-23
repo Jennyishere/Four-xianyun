@@ -5,10 +5,12 @@
         class="hotelItem"
         v-for="(item,index) in dataList"
         :key="index"
-        @click.native="$router.push('/hotel/detail')"
+        @click.native="$router.push({path:'/hotel/detail',query:{id:item.id}})"
       >
         <el-col :span="8">
-          <img :src="item.photos" alt />
+          <div class="pic">
+            <img :src="item.photos" alt />
+          </div>
         </el-col>
         <el-col :span="10">
           <h2>{{item.name}}</h2>
@@ -113,9 +115,27 @@ export default {
   padding: 25px 5px;
   border-bottom: 1px solid #eeeeee;
   color: #333;
-  img {
+  .pic {
     width: 300px;
-    height: 160px;
+    img {
+      width: 100%;
+      height: 160px;
+    }
+    &::after {
+      position: absolute;
+      // top: 100%;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      display: block;
+      content: "";
+      height: 22px;
+      width: 300px;
+      // background-color: #000;
+      background: url("https://css.mafengwo.net/images/hotel/hotel_index/floating-card-shadow.png?a=1")
+        no-repeat;
+      background-size: 100%;
+    }
   }
   h2 {
     font-weight: normal;

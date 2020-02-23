@@ -54,10 +54,7 @@ export default {
   methods: {
     // 拿到定位的地址
     setLocation(data) {
-      console.log(data);
-
       this.city = data;
-      console.log(this.city);
     },
     // 搜索价格
     sendData(data) {
@@ -114,13 +111,14 @@ export default {
       });
 
       var queryStr = strArr.join("&"); // 输出 hotellevel_in=&hotellevel_in=2&city=197
+      console.log(this.$route);
 
       this.$axios({
         url: "hotels?" + queryStr
       }).then(res => {
         // console.log(res);
         this.hotelData = res.data.data;
-        // console.log(this.hotelData);
+        console.log(this.hotelData);
       });
     }
   }
