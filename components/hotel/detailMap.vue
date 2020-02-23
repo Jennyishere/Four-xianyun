@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import svg from '@/images/hotel.svg'
 export default {
   props: {
     data: {
@@ -72,6 +73,20 @@ export default {
         this.searchScenery();
       };
     },
+    hotelPosition() {
+      var icon = new AMap.Icon({
+        size: new AMap.Size(19, 34), //图标尺寸
+        image: svg,
+        // "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-red.png",
+        imageSize: new AMap.Size(20, 34)
+      });
+      var marker = new AMap.Marker({
+        icon: icon,
+        position: new AMap.LngLat(this.centerInfo[0], this.centerInfo[1]),
+        offset: new AMap.Pixel(-10, -10)
+      });
+      marker.setMap(this.map);
+    },
     searchScenery() {
       AMap.service(["AMap.PlaceSearch"], () => {
         //构造地点查询类
@@ -85,11 +100,12 @@ export default {
           autoFitView: true // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
         });
         //关键字查询
-        placeSearch.searchNearBy("风景", this.centerInfo, 5000, function(
+        placeSearch.searchNearBy("风景名胜", this.centerInfo, 5000, function(
           status,
           result
         ) {});
       });
+      this.hotelPosition()
     },
     searchTraffic() {
       AMap.service(["AMap.PlaceSearch"], () => {
@@ -109,6 +125,7 @@ export default {
           result
         ) {});
       });
+      this.hotelPosition()
     },
     searchFood() {
       AMap.service(["AMap.PlaceSearch"], () => {
@@ -127,6 +144,7 @@ export default {
           status,
           result
         ) {});
+        this.hotelPosition()
       });
     },
     handleSearch(tab, event) {
@@ -177,7 +195,7 @@ export default {
         /deep/.amap_lib_placeSearch_page {
           background: #fff;
         }
-        /deep/.pageLink{
+        /deep/.pageLink {
           border-radius: 20%;
         }
       }

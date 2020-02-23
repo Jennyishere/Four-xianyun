@@ -51,13 +51,12 @@ export default {
   },
   data() {
     return {
-      id: 185,
       hotelDetail: {}
     };
   },
   mounted() {
     this.$axios({
-      url: `/hotels?id=` + this.id
+      url: `/hotels?id=` + this.$route.query.id
     }).then(res => {
       console.log(res.data);
       this.hotelDetail = res.data.data[0];
