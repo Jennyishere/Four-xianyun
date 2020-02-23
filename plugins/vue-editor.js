@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import RichEditor from '@/components/RichEditor'
+import Vue from 'vue';
+import { VueEditor } from 'vue2-editor';
 
-// register component from plugin to bypass SSR
-Vue.component('vue-editor', RichEditor)
+Vue.component('vue-editor', VueEditor);

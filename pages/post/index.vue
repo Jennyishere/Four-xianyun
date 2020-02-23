@@ -20,7 +20,7 @@
         <!-- 推荐攻略 -->
         <el-row type="flex" justify="space-between" class="post-title">
           <h4>推荐攻略</h4>
-          <el-button type="primary" icon="el-icon-edit">写游记</el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="$router.push('/post/create')">写游记</el-button>
         </el-row>
         <!-- 城市文章列表 -->
         <Citylist />

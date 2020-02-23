@@ -33,7 +33,7 @@ export default {
         //定义初始值
         const data = {
           _start: 0,
-          _limit: 3
+          _limit: 3,
         };
         //发起请求
         this.$store.dispatch("post/searchCity", data).then(res => {
@@ -43,7 +43,7 @@ export default {
       }
     // 调用方法
       this.$store.commit("post/setSearch", this.city);
-      console.log(111);
+      // console.log(111);
     },
     tuijian(index) {
       // 单机根据index搜索
