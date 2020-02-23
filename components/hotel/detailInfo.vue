@@ -47,13 +47,13 @@
       <el-col
         :span="20"
         class="assets-info-bd base-info"
-        v-if="data.hotelbrand !== null"
+        v-if="data.hotelbrand.name !== null"
         >{{ data.hotelbrand.name }}
       </el-col>
       <el-col
         :span="20"
         class="assets-info-bd base-info"
-        v-if="data.hotelbrand === null"
+        v-if="data.hotelbrand.name === null"
       >
         -
       </el-col>

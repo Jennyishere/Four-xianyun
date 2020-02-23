@@ -5,7 +5,7 @@
         class="hotelItem"
         v-for="(item,index) in dataList"
         :key="index"
-        @click.native="$router.push( `/hotel/detail?id=${item.id}`)"
+        @click.native="$router.push('/hotel/detail')"
       >
         <el-col :span="8">
           <img :src="item.photos" alt />
@@ -103,7 +103,6 @@ export default {
         (this.currentPage - 1) * this.pageSize,
         this.currentPage * this.pageSize
       );
-      console.log(this.dataList);
     }
   }
 };
