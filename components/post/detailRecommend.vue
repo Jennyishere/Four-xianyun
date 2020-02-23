@@ -46,7 +46,7 @@ mounted(){
             id
         }
     }).then(res =>{
-        console.log(res)
+       // console.log(res)
         const {data} =res.data
         this.Recommend =data
         //console.log(this.Recommend)

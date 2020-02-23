@@ -39,18 +39,21 @@
       <!-- 评论区 -->
     </div>
     <div>
-   <div class="keeps">
+   <div class="keeps" 
+   
+   >
       <h2>评论</h2>
-      <div class="item">
+      <div class="item" v-for="(item,index) in  pinglun" :key='index'>
         <div class="head">
-          <img src="../../images/01.jpg" alt />
+          <img :src="item.account.defaultAvatar" alt /> <p>{{item.account.nickname}}</p>
           <div>
-            <p>火星网友</p>
-            <span>2小时前</span>
+           
+            <img :src="item.pics.url" alt="">
+           
           </div>
-          <span>回复</span>
+          
         </div>
-        <div class="text">文章说得很有道理</div>
+        <div class="text">{{item.content}}</div>
       </div>
       <div class="more">更多跟帖</div>
     </div>
@@ -60,11 +63,11 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page="pageIndex"
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="5"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
+      :total="total">
     </el-pagination>
   </div>
  </div>
@@ -76,6 +79,15 @@ export default {
   data() {
     return {
       detailList: [],
+      //分页
+      fenye:[],
+           pageIndex: 1, // 当前页数
+            pageSize: 5,  // 显示条数
+            list:[],
+            start:0,
+            limit:5,
+            total:0,
+            //上传
           dialogImageUrl: '',
         dialogVisible: false,
 
@@ -84,10 +96,15 @@ export default {
         pics:[],
         id:''
       },
+      pinglun:[],
+      //评论对象
       
     };
   },
   mounted() {
+    //分页
+    this.getData();
+
     const { id } = this.$route.query;
     //console.log(id)
     this.form.id =id
@@ -116,9 +133,12 @@ export default {
 
         }
       }).then(res => {
-        console.log(res)
+       // console.log(res)
+        const {data} =res.data
+      this.pinglun =data
+        console.log(data)
+      this.fenye =data
 
-        // console.log(this.detailList)
       });
   },
   methods: {
@@ -126,8 +146,11 @@ export default {
         handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    handleCurrentChange(index) {
+      this.start = (index - 1) * this.limit;
+      this.getData();
+
+       
     },
   handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -142,6 +165,7 @@ export default {
         type: "warning"
       });
     },
+    //提交
     submit(){
       this.$axios({
         url:'/comments',
@@ -150,7 +174,29 @@ export default {
       }).then(res =>{
         console.log(res)
       })
+    },
+    //分页
+    getData(){
+    const { id } = this.$route.query;
+
+this.$axios({
+        url: "/posts/comments",
+        params: {
+          post :id,
+         _start: this.start,
+         _limit: this.limit,
+         
+
+        }
+      }).then(res => {
+       // console.log(res)
+       const {data, total} = res.data;
+      this.list = data;
+      this.total = total;
+
+      });
     }
+
   }
 };
 </script>
@@ -226,8 +272,8 @@ i {
       justify-content: space-between;
       align-items: center;
       > img {
-        width: 50/360 * 100vw;
-        height: 50/360 * 100vw;
+        width: 16px;
+        height: 16px;
         display: block;
         border-radius: 50%;
       }
