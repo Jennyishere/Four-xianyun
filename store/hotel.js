@@ -3,16 +3,13 @@ export const state = () => {
     hotelDetail: {
       hotelbrand: {},
       location: {},
-      scores: {},
-
-    },
+      scores: {}
+    }
   };
 };
 
 export const mutations = {
   setHotelInfo(state, data) {
     state.hotelDetail = data;
-  },
-
+  }
 };
-
