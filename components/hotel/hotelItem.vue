@@ -1,54 +1,109 @@
 <template>
   <div>
-    <el-row class="hotelItem">
-      <el-col :span="8">图片</el-col>
-      <el-col :span="10">
-        <h2>好来阁商务宾馆</h2>
-        <div class="hoteltype">
-          <span>hao lai ge shang wu hotel</span>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          经济型
-        </div>
-        <el-row class="rate" type="flex">
-          <el-rate
-            v-model="value"
-            disabled
-            show-score
-            text-color="#ff9900"
-            score-template="{value}分"
-          ></el-rate>
-          <span>
-            <i>51</i>条评价
-          </span>
-          <span>
-            <i>7</i>篇游记
-          </span>
-        </el-row>
-        <div class="location">
-          <i class="el-icon-location"></i>位于: 高淳县淳溪镇镇兴路118号(高淳县委党校对面)
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <el-row justify="space-between" class="buyWay">
-          <span>携程</span>
-          <span>
-            <em>￥111</em>起
-            <i class="el-icon-arrow-right"></i>
-          </span>
-        </el-row>
-      </el-col>
-    </el-row>
+    <div>
+      <el-row
+        class="hotelItem"
+        v-for="(item,index) in dataList"
+        :key="index"
+        @click.native="$router.push('/hotel/detail')"
+      >
+        <el-col :span="8">
+          <img :src="item.photos" alt />
+        </el-col>
+        <el-col :span="10">
+          <h2>{{item.name}}</h2>
+          <div class="hoteltype">
+            <span>{{item.alias}}</span>
+            <i class="iconfont iconhuangguan"></i>
+            <i class="iconfont iconhuangguan"></i>
+            <i class="iconfont iconhuangguan"></i>
+            经济型
+          </div>
+          <el-row class="rate" type="flex">
+            <el-rate disabled show-score text-color="#ff9900" :score-template="`${item.stars}分`"></el-rate>
+            <span>
+              <i>{{item.all_remarks}}</i>条评价
+            </span>
+            <span>
+              <i>7</i>篇游记
+            </span>
+          </el-row>
+          <div class="location">
+            <i class="el-icon-location"></i>
+            位于: {{item.address}}
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <el-row justify="space-between" class="buyWay" v-for="(v,i) in item.products" :key="i">
+            <span>{{v.name}}</span>
+            <span>
+              <em>￥{{v.price}}</em>起
+              <i class="el-icon-arrow-right"></i>
+            </span>
+          </el-row>
+        </el-col>
+      </el-row>
+      <el-pagination
+        v-if="dataList.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="data.length"
+      ></el-pagination>
+      <div class="nodata" v-if="!dataList.length">暂无数据</div>
+      {{filter}}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    data: {
+      type: Array, // 声明data属性的类型
+      default: []
+    }
+  },
   data() {
     return {
-      value: 3.5
+      pageSize: 5,
+      currentPage: 1,
+      dataList: []
     };
+  },
+  mounted() {
+    this.sliceData();
+  },
+  computed: {
+    filter() {
+      this.currentPage = 1;
+      this.sliceData();
+
+      return "";
+    }
+  },
+  methods: {
+    // 切换条数时候触发的事件
+    handleSizeChange(index) {
+      this.pageSize = index;
+      this.sliceData();
+    },
+
+    // 切换页数时候触发的事件
+    handleCurrentChange(index) {
+      this.currentPage = index;
+      this.sliceData();
+    },
+    sliceData() {
+      // 第一页是0-5，第二页是5-10，第三页是10-15
+      this.dataList = this.data.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.currentPage * this.pageSize
+      );
+    }
   }
 };
 </script>
@@ -58,6 +113,10 @@ export default {
   padding: 25px 5px;
   border-bottom: 1px solid #eeeeee;
   color: #333;
+  img {
+    width: 300px;
+    height: 160px;
+  }
   h2 {
     font-weight: normal;
   }
@@ -84,13 +143,17 @@ export default {
   color: #999;
 }
 .buyWay {
-    width: 100%;
-    padding: 10px;
-    border-bottom: 1px solid #ebeef5;
-    color: #666;
-    em {
-         color: #ff9900;
-         margin-left: 50px;
-    }
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #ebeef5;
+  color: #666;
+  em {
+    color: #ff9900;
+    margin-left: 50px;
+  }
+}
+.nodata {
+  margin-top: 20px;
+  text-align: center;
 }
 </style>
