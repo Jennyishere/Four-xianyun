@@ -9,6 +9,7 @@
       <div class="content" v-html="detailList[0].content" v-if="detailList[0]"></div>
       <i class="el-icon-edit"></i>
       <i class="el-icon-share" @click="Tips"></i>
+      
     </div>
 
     <!-- footer -->
@@ -54,8 +55,21 @@
            
           </div>
           <div class="text">{{item.content}}</div>
-          
+          <!-- 递归 -->
+          <!-- 判断是否生成上一级评论 -->
+          <div v-if="item.parent">
+             <div class="head">
+          <img :src="$axios.defaults.baseURL+item.parent.account.defaultAvatar" alt /> <p>{{item.parent.account.nickname}}</p>
+          <div>
+           
+            <img :src="$axios.defaults.baseURL+item.parent.pics.url" alt="">
+           
+          </div>
+          <div class="text">{{item.content}}</div>
+          </div>
         </div>
+        </div>
+
         <!-- <div class="text">{{item.content}}</div>
        <div class="commentItem">
       <div class="top">
