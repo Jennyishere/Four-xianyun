@@ -39,11 +39,13 @@
       <!-- 评论区 -->
     </div>
     <div>
+
    <div class="keeps" 
    
    >
+  
       <h2>评论</h2>
-      <div class="item" v-for="(item,index) in     dataList" :key='index'>
+      <div class="item" v-for="(item,index) in     fenye" :key='index'>
         <div class="head">
           <img :src="item.account.defaultAvatar" alt /> <p>{{item.account.nickname}}</p>
           <div>
@@ -53,9 +55,19 @@
           </div>
           
         </div>
-        <div class="text">{{item.content}}</div>
+        <!-- <div class="text">{{item.content}}</div>
+       <div class="commentItem">
+      <div class="top">
+          <div class="left">
+              <span>{{item.parent.account.nickname}}</span> &nbsp;&nbsp;&nbsp;
+              <span>2分钟前</span>
+          </div>
+          <span>回复</span>
       </div>
-      <div class="more">更多跟帖</div>
+      <div class="bottom">{{item.parent.content}}</div>
+  </div> -->
+      </div>
+    
     </div>
     <!-- 分页 -->
     <div class="block">
@@ -75,7 +87,13 @@
 </template>
 
 <script>
+// import DetailFooter from '@/components/post/detailFooter.vue'
 export default {
+  // 组件递归
+  // name:'keeps',
+  components:{
+    //  DetailFooter
+  },
   data() {
     return {
       detailList: [],
@@ -321,5 +339,19 @@ i {
     font-size: 13px;
   }
 }
-
+  .commentItem{
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin-top: 10px;
+        .top{
+            font-size: 12px;
+            color: #aaa;
+            display: flex;
+            justify-content: space-between;
+        }
+        .bottom{
+            font-size: 13px;
+            line-height: 40px;
+        }
+    }
 </style>
