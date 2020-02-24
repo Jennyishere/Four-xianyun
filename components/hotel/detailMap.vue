@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import svg from '@/images/hotel.svg'
+import svg from "@/images/hotel.svg";
 export default {
   props: {
     data: {
@@ -42,24 +42,24 @@ export default {
     };
   },
   mounted() {
+    //组件加载完后执行的函数
     setTimeout(() => {
       this.centerInfo = [
         this.data.location.longitude,
         this.data.location.latitude
       ];
       console.log(this.centerInfo);
-    }, 100);
+      setTimeout(() => {
+        var url =
+          "https://webapi.amap.com/maps?v=1.4.15&key=ccfe0710919fd363dbfb8d9b863a8519&callback=onLoad&plugin=AMap.PlaceSearch";
+        var jsapi = document.createElement("script");
+        jsapi.charset = "utf-8";
+        jsapi.src = url;
+        document.head.appendChild(jsapi);
 
-    var url =
-      "https://webapi.amap.com/maps?v=1.4.15&key=ccfe0710919fd363dbfb8d9b863a8519&callback=onLoad&plugin=AMap.PlaceSearch";
-    var jsapi = document.createElement("script");
-    jsapi.charset = "utf-8";
-    jsapi.src = url;
-    document.head.appendChild(jsapi);
-    //组件加载完后执行的函数
-    setTimeout(() => {
-      this.mapInit();
-    }, 200);
+        this.mapInit();
+      }, 100);
+    }, 100);
   },
   methods: {
     //地图初始化
@@ -105,7 +105,7 @@ export default {
           result
         ) {});
       });
-      this.hotelPosition()
+      this.hotelPosition();
     },
     searchTraffic() {
       AMap.service(["AMap.PlaceSearch"], () => {
@@ -125,7 +125,7 @@ export default {
           result
         ) {});
       });
-      this.hotelPosition()
+      this.hotelPosition();
     },
     searchFood() {
       AMap.service(["AMap.PlaceSearch"], () => {
@@ -144,7 +144,7 @@ export default {
           status,
           result
         ) {});
-        this.hotelPosition()
+        this.hotelPosition();
       });
     },
     handleSearch(tab, event) {
