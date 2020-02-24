@@ -31,12 +31,12 @@
 
 <script>
 import Citymenus from "../../components/post/psotListMenus"; //菜单城市
-import Citysearch from '../../components/post/PostCitysearch';//搜索框
-import Citylist from '../../components/post/PostCityList';//城市列表
+import Citysearch from "../../components/post/PostCitysearch"; //搜索框
+import Citylist from "../../components/post/PostCityList"; //城市列表
 export default {
   data() {
     return {
-      searchCityList:''
+      searchCityList: ""
     };
   },
   components: {
@@ -47,10 +47,14 @@ export default {
     //城市列表
     Citylist
   },
-  methods: {
-    
+  methods: {},
+  beforeRouteUpdate(to, from, next) {
+    next();
+    this.$store.commit("post/setColor", true);
+  },
+  destroyed() {
+    this.$store.commit("post/setColor", false);
   }
-
 };
 </script>
 
@@ -75,16 +79,16 @@ export default {
       }
     }
   }
-  .post-wrapper{
+  .post-wrapper {
     width: 700px;
-   
-    .post-title{
+
+    .post-title {
       padding-bottom: 10px;
       border-bottom: 1px solid #eee;
-       margin-left: 38px;
-      h4{
+      margin-left: 38px;
+      h4 {
         padding-top: 10px;
-        margin-bottom:-12.8px;
+        margin-bottom: -12.8px;
         font-weight: 400;
         font-size: 18px;
         border-bottom: 2px solid orange;

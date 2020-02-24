@@ -12,7 +12,7 @@
             <!-- 菜单栏 -->
             <el-row type="flex" class="navs">
                 <nuxt-link to="/">首页</nuxt-link>
-                <nuxt-link to="/post">旅游攻略</nuxt-link>
+                <nuxt-link to="/post" :class="{active:$store.state.post.color==true}">旅游攻略</nuxt-link>
                 <nuxt-link to="/hotel">酒店</nuxt-link>
                 <nuxt-link to="/air">国内机票</nuxt-link>  
             </el-row>
@@ -60,7 +60,8 @@ export default {
 
     mounted(){
         
-    }
+    },
+     
 }
 </script>
 <style scoped lang="less">
@@ -153,4 +154,8 @@ export default {
             }
         }
     } 
+    .active{
+        color:#409eff;
+        border-bottom: 3px solid #409eff;
+    }
 </style>
