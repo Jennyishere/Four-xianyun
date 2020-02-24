@@ -1,7 +1,7 @@
 <template>
   <div class="map">
     <div id="container"></div>
-    <span>{{filter}}</span>
+    <span>{{ filter }}</span>
   </div>
 </template>
 
@@ -15,7 +15,9 @@ export default {
   },
   data() {
     return {
-      locations: []
+      locations: [],
+      map: "",
+      str: []
     };
   },
   computed: {
@@ -30,63 +32,11 @@ export default {
   mounted() {
     // 地图加载完毕之后会触发
     window.onLoad = () => {
-      var map = new AMap.Map("container", {
+      this.map = new AMap.Map("container", {
         zoom: 11 //级别
       });
 
-      // 定位
-      AMap.plugin("AMap.Geolocation", () => {
-        var geolocation = new AMap.Geolocation({
-          // 是否使用高精度定位，默认：true
-          enableHighAccuracy: true,
-          // 设置定位超时时间，默认：无穷大
-          timeout: 10000,
-          // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
-          buttonOffset: new AMap.Pixel(10, 20),
-          //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-          zoomToAccuracy: true,
-          //  定位按钮的排放位置,  RB表示右下
-          buttonPosition: "RB"
-        });
-        const onComplete = data => {
-          var map = new AMap.Map("container", {
-            zoom: 11 //级别
-          });
-          // data是具体的定位信息
-          // 弹窗告知用户的定位
-          if (this.$route.path == "/hotel") {
-            this.open(data.addressComponent.city);
-            // (点标记)创建一个 Marker 实例：
-            var markerList = [];
-            this.locations.forEach((v, i) => {
-              var marker = new AMap.Marker({
-                position: new AMap.LngLat(v.longitude, v.latitude), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-                // title: data.formattedAddress
-                map: map,
-                offset: new AMap.Pixel(-10, -10),
-                icon: "//vdata.amap.com/icons/b18/1/2.png"
-              });
-
-              markerList.push(marker);
-            });
-
-            // 将创建的点标记添加到已有的地图实例：
-
-            map.add(markerList);
-
-            // map.add(marker);
-            // 移除已创建的 marker
-            // map.remove(marker);
-          }
-        };
-        geolocation.getCurrentPosition();
-        AMap.event.addListener(geolocation, "complete", onComplete);
-        AMap.event.addListener(geolocation, "error", onError);
-
-        function onError(data) {
-          // 定位出错
-        }
-      });
+      this.plugin();
     };
 
     var url =
@@ -105,6 +55,66 @@ export default {
           this.$emit("setLocation", data);
         }
       });
+    },
+    plugin() {
+      // 定位
+      AMap.plugin("AMap.Geolocation", () => {
+        var geolocation = new AMap.Geolocation({
+          // 是否使用高精度定位，默认：true
+          enableHighAccuracy: true,
+          // 设置定位超时时间，默认：无穷大
+          timeout: 10000,
+          // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+          buttonOffset: new AMap.Pixel(10, 20),
+          //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+          zoomToAccuracy: true,
+          //  定位按钮的排放位置,  RB表示右下
+          buttonPosition: "RB"
+        });
+        const onComplete = data => {
+          this.map = new AMap.Map("container", {
+            zoom: 11 //级别
+          });
+          // data是具体的定位信息
+          // 弹窗告知用户的定位
+          if (this.$route.path == "/hotel") {
+            this.str.push(data.position);
+            // console.log(this.str[0].lng);
+            // console.log(this.str[0].lat);
+            this.searchHotel(
+              data.addressComponent.city,
+              this.str[0].lng,
+              this.str[0].lat
+            );
+            this.open(data.addressComponent.city);
+          }
+        };
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, "complete", onComplete);
+        AMap.event.addListener(geolocation, "error", onError);
+
+        function onError(data) {
+          // 定位出错
+        }
+      });
+    },
+    searchHotel(city, lng, lat) {
+      AMap.service(["AMap.PlaceSearch"], () => {
+        //构造地点查询类
+        var placeSearch = new AMap.PlaceSearch({
+          pageSize: 10, // 单页显示结果条数
+          pageIndex: 1, // 页码
+          city: city, // 兴趣点城市
+          citylimit: true, //是否强制限制在设置的城市内搜索
+          map: this.map, // 展现结果的地图实例
+          autoFitView: true // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+        });
+        //关键字查询
+        placeSearch.searchNearBy("酒店", [lng, lat], function(
+          status,
+          result
+        ) {});
+      });
     }
   }
 };
@@ -116,4 +126,3 @@ export default {
   height: 280px;
 }
 </style>
-
