@@ -14,7 +14,7 @@
     "@ckeditor/ckeditor5-build-classic": "^16.0.0",
     "@ckeditor/ckeditor5-vue": "^1.0.1",
     "@nuxtjs/axios": "^5.3.6",
-    "element-ui": "^2.4.11",
+    "hbl-comment": "^1.2.3",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
@@ -24,5 +24,7 @@
     "vue2-editor": "^2.10.2",
     "vuex-persistedstate": "^2.7.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "element-ui": "^2.13.0"
+  }
 }

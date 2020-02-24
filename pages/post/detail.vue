@@ -62,6 +62,8 @@ export default {
       detail:[
             
           ],
+          //评论回复
+          replyObj:null
      
     };
   },

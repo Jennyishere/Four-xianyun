@@ -195,17 +195,28 @@ export default {
     },
     //提交
     submit(){
+    const { id } = this.$route.query;
+      
       this.$axios({
         url:'/comments',
         methods:'POST',
         data:this.form 
       }).then(res =>{
         console.log(res)
+        if(res.status ===200){
+           this.$message({
+        message: "提交成功",
+        type: 'success'
+      });
+      //文本框清空
+      this.form.content='';
+        }
       })
     },
     //分页
     getData(){
     const { id } = this.$route.query;
+    this.form.id =id
 
 this.$axios({
         url: "/posts/comments",
