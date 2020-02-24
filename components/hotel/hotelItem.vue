@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     filter() {
-      this.currentPage = 1;
+      // this.currentPage = 1;
       if (this.dataList) {
         this.sliceData();
       }
@@ -105,6 +105,7 @@ export default {
 
     // 切换页数时候触发的事件
     handleCurrentChange(index) {
+      
       this.currentPage = index;
       this.sliceData();
     },
