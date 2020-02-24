@@ -13,7 +13,16 @@
     </div>
     <el-row class="name-info">
       <el-col :span="24">
-        <h4 class="hotel-cn-name">{{ hotelDetail.name }}</h4>
+        <h4 class="hotel-cn-name">
+          {{ hotelDetail.name }}
+          <span v-if="!!hotelDetail.hoteltype.name">
+            <i class="iconfont iconhuangguan"></i>
+            <i class="iconfont iconhuangguan"></i>
+            <i class="iconfont iconhuangguan"></i>
+            <i class="iconfont iconhuangguan"></i>
+            <i class="iconfont iconhuangguan"></i>
+          </span>
+        </h4>
       </el-col>
       <el-col :span="24">
         <span class="hotel-en-name">{{ hotelDetail.alias }}</span>
@@ -51,7 +60,9 @@ export default {
   },
   data() {
     return {
-      hotelDetail: {}
+      hotelDetail: {
+        hoteltype: {}
+      }
     };
   },
   mounted() {
@@ -84,6 +95,13 @@ export default {
       font-weight: 400;
       color: #333;
       margin-bottom: 3px;
+      span {
+        margin-left: 10px;
+        .iconhuangguan {
+          color: #f90;
+          margin-left: -8px;
+        }
+      }
     }
     .hotel-en-name {
       display: inline-block;
