@@ -2,7 +2,8 @@ export const state = () => {
   return {
     draft: [],
     search: "",
-    SendSearch: ""
+    SendSearch: "",
+    color:false
   };
 };
 export const mutations = {
@@ -17,6 +18,9 @@ export const mutations = {
     if (state.draft.length > 5) {
       state.draft.splice(5, 1);
     }
+  },
+  setColor(state,data){
+    state.color=data
   }
 };
 export const actions = {

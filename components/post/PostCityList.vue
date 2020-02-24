@@ -102,7 +102,7 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        
+        :current-page="currentPage"
         :page-sizes="[3, 5, 10, 15]"
         :page-size="Number(limit)"
         layout="total, sizes, prev, pager, next, jumper"
@@ -144,8 +144,12 @@ export default {
     },
     handleCurrentChange(val) {
       //   console.log(`当前页: ${val}`);
+      console.log(this.$store.state.post.SendSearch);
+      
       this.start = (val - 1) * this.limit;
       this.currentPage = Number(val);
+      // console.log(this.currentPage);
+      
       this.$router.replace({
         path: "/post",
         query: {
@@ -155,6 +159,7 @@ export default {
         }
       });
       if (this.$store.state.post.search) {
+        
         this.inits();
       } else {
         this.init();
@@ -172,7 +177,10 @@ export default {
         this.dataList = res.data.data;
         this.total = res.data.total;
         console.log(res);
-      });
+      }).catch((error)=>{
+          console.log(error);
+          
+      })
     },
     //搜索指定城市的数据
     inits() {
@@ -190,7 +198,10 @@ export default {
           this.$message.error("没有相关数据");
         }
         console.log(res.data.data);
-      });
+      }).catch((error)=>{
+          console.log(error);
+          
+      })
     }
   },
   mounted() {
@@ -217,6 +228,7 @@ export default {
   },
   watch: {
     "$store.state.post.search"() {
+       
       this.$router.replace({
         path: "/post",
         query: {
@@ -225,14 +237,24 @@ export default {
           // currentPage: 1
         }
       });
-      // this.currentPage = 1;
+      this.currentPage = 1;
       this.start =0;
       if (!this.$store.state.post.search) {
         this.init();
       } else {
-        this.inits();
+       
+         this.inits();
+        
+       
       }
+    },
+    "$store.state.post.SendSearch"(){
+      // console.log(111);
+      
+      // this.currentPage = 1;
+      //  this.inits();
     }
+    
   }
 };
 </script>
