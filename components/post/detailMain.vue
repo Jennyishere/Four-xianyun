@@ -47,12 +47,13 @@
       <h2>评论</h2>
       <div class="item" v-for="(item,index) in     fenye" :key='index'>
         <div class="head">
-          <img :src="item.account.defaultAvatar" alt /> <p>{{item.account.nickname}}</p>
+          <img :src="$axios.defaults.baseURL+item.account.defaultAvatar" alt /> <p>{{item.account.nickname}}</p>
           <div>
            
-            <img :src="item.pics.url" alt="">
+            <img :src="$axios.defaults.baseURL+item.pics.url" alt="">
            
           </div>
+          <div class="text">{{item.content}}</div>
           
         </div>
         <!-- <div class="text">{{item.content}}</div>
