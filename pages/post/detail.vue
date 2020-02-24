@@ -3,9 +3,9 @@
     <el-container>
       <!-- 左边 -->
          <div>
-        <el-aside width="450px">
+        <!-- <el-aside width="450px">
         
-      </el-aside>
+      </el-aside> -->
       </div>
       <el-container>
         <!-- 头部 -->
