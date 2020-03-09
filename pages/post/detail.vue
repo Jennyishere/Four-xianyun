@@ -1,15 +1,13 @@
 <template>
-  <div>
-    detail
+  <div post-detail>
+    <el-col :span="17" class="detail-content"><div class="detail-content">正文</div></el-col>
+  <el-col :span="7"><div >相关推荐</div></el-col>
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>
